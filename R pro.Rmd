@@ -1,0 +1,77 @@
+---
+title: "Football team"
+author: "tsering"
+date: "7/13/2021"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+
+```
+```{r}
+football<-read.csv("/Users/tsering youdon/Downloads/Football Teams.csv")
+```
+```{r}
+View(football)
+```
+No of rows-
+```{r}
+nrow(football)
+```
+No of columns-
+```{r}
+ncol(football)
+```
+Names of column-
+```{r}
+colnames(football)
+```
+```{r}
+summary(football)
+```
+```{R}
+d <- football %>% top_n(10, red_cards)
+
+View(d)
+```
+
+
+```{R}
+ggplot(data=football,aes(fill=Tournament,y=Goals))+
+  geom_boxplot()
+```
+
+Total No. of Teams from each Tournament
+```{R}
+football %>%
+  count(Tournament)
+```
+```{R}
+e <- ggplot(data=d,  aes(x=Team, y=red_cards))
+e + geom_bar(stat="identity",aes(fill=Team),colour="Black") + 
+  scale_y_continuous(breaks=c(1,2,3,4,5,6,7,8,9,10))+
+  theme( axis.title.x =element_text(colour = 'Black',size=10),
+        axis.title.y =element_text(colour = 'Black',size=10),
+        axis.text.x = element_text(colour='Black', size=10),
+        axis.text.y = element_text(colour='Black', size=10))
+
+
+```
+
+Goals scored in a Tournament.
+```{R}
+i <- ggplot(data= football,  aes(x=Tournament, y=Goals, fill=Tournament))
+i + geom_violin() +  facet_wrap(Tournament~., scales = "free")
+```
+Top goals by Clubs 
+```{R}
+g <- ggplot(data=football , aes(x=Goals , y=Shots.pg, size=yellow_cards,colour=yellow_cards))
+g + geom_jitter()
+```
+```{R}
+j <- football %>% top_n(10, AerialsWon)
+View(j)
+ggplot(j,aes(x=Tournament,y=AerialsWon))+
+  geom_tile(aes(fill=Team))
+```
